@@ -1,13 +1,22 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.plasmoid 2.0
+import QtQuick
+import QtQuick.Layouts
+
+import org.kde.plasma.plasma5support as Plasma5Support
+import org.kde.plasma.components as PlasmaComponents
+
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.components as PlasmaComponents
+import org.kde.plasma.plasmoid
 import QtQuick.Effects
 
-Item {
+PlasmoidItem {
     id: root
+
+    Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground
+
     implicitWidth: 500; implicitHeight: 200
+
+
     property var dlls: {
         try {
             return JSON.parse(plasmoid.configuration.dlls)
@@ -16,39 +25,52 @@ Item {
         }
     }
 
+    property string textToShow: "Loading..."
 
-    property string TextToShow: "Loading..."
-
-    // Always display the compact view.
-    // Never show the full popup view even if there is space for it.
-    Plasmoid.preferredRepresentation: Plasmoid.compactRepresentation
-
-    function loadBootId() {
-        let xhr = new XMLHttpRequest()
-        xhr.open("GET", "file:///proc/sys/kernel/random/boot_id")
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                let boot_id = = uuid.replace(/-/g, '').substring(0, 12);
-                const randomNum = parseInt(boot_id, 16);
-
-                root.TextToShow = root.dlls[randomNum % root.dlls.length]
-
+    // GET BOOT RANDOM
+        Plasma5Support.DataSource {
+            id: executableEngine
+            engine: "executable"
+            connectedSources: []
+            
+            onNewData: (sourceName, data) => {
+                // "data.stdout" receives the string stream directly from the system pipe
+                let rawOutput = data.stdout || ""
+                let boot_id = rawOutput.replace(/-/g, '').substring(0, 12).trim()
+                
+                let randomNum = parseInt(boot_id, 16)
+                
+                if (!isNaN(randomNum) && root.dlls.length > 0) {
+                    root.textToShow = root.dlls[randomNum % root.dlls.length]
+                } else {
+                    root.textToShow = root.dlls[0] // Standard fallback
+                }
+                
+                // Disconnect immediately after reading so it doesn't loop run
+                disconnectSource(sourceName)
             }
         }
-        xhr.send()
-    }
 
-    Plasmoid.fullRepresentation: Item {
+        // 2. Trigger a simple cat command to dump the virtual file stream
+        Component.onCompleted: {
+            executableEngine.connectSource("cat /proc/sys/kernel/random/boot_id")
+        }
+
+    // END GET BOOT RANDOM
+
+
+    Item {
         id: textContainer
         anchors.fill: parent
 
         PlasmaComponents.Label {
             id: fancyText
-            text: root.TextToShow
+            text: root.textToShow
             anchors.centerIn: parent
             
             // Super fancy styling: large, heavy, and semi-translucent
             font.pixelSize: 120
+            
             font.weight: Font.Black
             font.styleName: "Condensed"
             
@@ -65,9 +87,9 @@ Item {
         
         // Configures a high-quality soft frosted blur radius around the font
         blurEnabled: true
-        blur: 0.6            // Adjust blur intensity (0.0 to 1.0)
-        blurMaxRadius: 64    // Maximum pixel spread of the glow/blur
-        
+        blur: 1.0           // Range from 0.0 to 1.0
+        blurMax: 64         // Maximum blurring radius in pixels
+
         // Optional: Adds a stylized subtle tint shadow for extra contrast
         shadowEnabled: true
         shadowColor: "#000000"

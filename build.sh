@@ -1,1 +1,3 @@
-kpackagetool6 -t Plasma/Applet -i package
+kpackagetool6 -t Plasma/Applet -u package
+
+plasmashell --replace & disown
