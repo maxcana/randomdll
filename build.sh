@@ -1,0 +1,1 @@
+kpackagetool6 -t Plasma/Applet -i package

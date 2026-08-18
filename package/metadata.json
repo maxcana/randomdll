@@ -1,0 +1,20 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "myemail@gmail.com",
+                "Name": "cas"
+            }
+        ],
+        "Category": "System Information",
+        "Description": "A widget to take over the world!",
+        "Icon": "kjumpingcube",
+        "Id": "com.cas.randomdll",
+        "Name": "Random DLL",
+        "Version": "1",
+        "Website": "https://example.com/user/plasmoid-helloworldplugin",
+        "BugReportUrl": "https://example.com/user/plasmoid-helloworldplugin/bugs"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "KPackageStructure": "Plasma/Applet"
+}
