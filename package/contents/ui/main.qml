@@ -42,8 +42,10 @@ PlasmoidItem {
                 
                 if (!isNaN(randomNum) && root.dlls.length > 0) {
                     root.textToShow = root.dlls[randomNum % root.dlls.length]
+
+                    root.textToShow = root.textToShow.toUpperCase()
                 } else {
-                    root.textToShow = root.dlls[0] // Standard fallback
+                    root.textToShow = "boot RNG failed"
                 }
                 
                 // Disconnect immediately after reading so it doesn't loop run
@@ -68,11 +70,12 @@ PlasmoidItem {
             text: root.textToShow
             anchors.centerIn: parent
             
-            // Super fancy styling: large, heavy, and semi-translucent
-            font.pixelSize: 120
-            
-            font.weight: Font.Black
-            font.styleName: "Condensed"
+            font.pixelSize: 150
+            font.family: "Playfair Display"
+            font.variableAxes: { "wght": 900 } 
+
+            font.italic: false
+            font.letterSpacing: 2
             
             // 0.4 makes it 40% opaque, letting background colors bleed through
             opacity: 0.4 
@@ -87,8 +90,8 @@ PlasmoidItem {
         
         // Configures a high-quality soft frosted blur radius around the font
         blurEnabled: true
-        blur: 1.0           // Range from 0.0 to 1.0
-        blurMax: 64         // Maximum blurring radius in pixels
+        blur: 1.0 // Range from 0.0 to 1.0
+        blurMax: 64 // Maximum blurring radius in pixels
 
         // Optional: Adds a stylized subtle tint shadow for extra contrast
         shadowEnabled: true
