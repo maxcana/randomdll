@@ -70,7 +70,7 @@ PlasmoidItem {
             id: fancyText
             text: root.textToShow
             anchors.centerIn: parent
-            font.pixelSize: 500
+            font.pixelSize: 200
             font.family: "Playfair Display"
             font.variableAxes: { "wght": 900 }
             font.italic: false
