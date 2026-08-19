@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<kcfg xmlns="http://kde.org"
-      xmlns:xsi="http://w3.org"
-      xsi:schemaLocation="http://kde.org http://kde.org/main.xsd">
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
   <group name="General">
     <entry name="dlls" type="String">
       <default>["ntdll.dll","kernel32.dll","kernelbase.dll","hal.dll","advapi32.dll","wow64.dll","wow64win.dll","wow64cpu.dll","ucrtbase.dll","apphelp.dll","user32.dll","gdi32.dll","gdiplus.dll","shell32.dll","imageres.dll","uxtheme.dll","dwmapi.dll","comctl32.dll","comdlg32.dll","ole32.dll","d3d11.dll","d3d12.dll","dxgi.dll","opengl32.dll","dsound.dll","winmm.dll","mfplat.dll","avrt.dll","glu32.dll","setupapi.dll","ws2_32.dll","winhttp.dll","wininet.dll","iphlpapi.dll","dnsapi.dll","crypt32.dll","lsasrv.dll","mswsock.dll","wlanapi.dll","dhcpcsvc.dll","rpcrt4.dll","clbcatq.dll","faultrep.dll","profapi.dll","shlwapi.dll","version.dll","cfgmgr32.dll","cabinet.dll","bcrypt.dll","samlib.dll"]</default>
+    </entry>
+    <entry name="capitalize" type="bool">
+      <default>false</default>
     </entry>
   </group>
 </kcfg>

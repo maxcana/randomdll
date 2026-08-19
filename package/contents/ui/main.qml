@@ -23,8 +23,11 @@ PlasmoidItem {
             return ["Error parsing JSON"]
         }
     }
+    property string textToShow: {
+        return root.plasmoid.configuration.capitalize ? selectedDll.toUpperCase() : selectedDll
+    }
 
-    property string textToShow: "Loading..."
+    property string selectedDll: "loading..."
 
     // GET BOOT RANDOM
         Plasma5Support.DataSource {
@@ -40,11 +43,9 @@ PlasmoidItem {
                 let randomNum = parseInt(boot_id, 16)
                 
                 if (!isNaN(randomNum) && root.dlls.length > 0) {
-                    root.textToShow = root.dlls[randomNum % root.dlls.length]
-
-                    root.textToShow = root.textToShow.toUpperCase()
+                    root.selectedDll = root.dlls[randomNum % root.dlls.length]
                 } else {
-                    root.textToShow = "boot RNG failed"
+                    root.selectedDll = "boot RNG failed"
                 }
                 
                 // Disconnect immediately after reading so it doesn't loop run
@@ -67,7 +68,7 @@ PlasmoidItem {
             id: fancyText
             text: root.textToShow
             anchors.centerIn: parent
-            font.pixelSize: 200
+            font.pixelSize: 500
             font.family: "Playfair Display"
             font.variableAxes: { "wght": 900 }
             font.italic: false
