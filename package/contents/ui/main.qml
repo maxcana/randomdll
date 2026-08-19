@@ -24,10 +24,12 @@ PlasmoidItem {
         }
     }
     property string textToShow: {
-        return root.plasmoid.configuration.capitalize ? selectedDll.toUpperCase() : selectedDll
-    }
+        if(selectedDll == -2) return "boot RNG failed"
+        if(selectedDll == -1) return "loading..."
 
-    property string selectedDll: "loading..."
+        return root.plasmoid.configuration.capitalize ? root.dlls[selectedDll].toUpperCase() : root.dlls[selectedDll]
+    }
+    property var selectedDll: -1
 
     // GET BOOT RANDOM
         Plasma5Support.DataSource {
@@ -43,9 +45,9 @@ PlasmoidItem {
                 let randomNum = parseInt(boot_id, 16)
                 
                 if (!isNaN(randomNum) && root.dlls.length > 0) {
-                    root.selectedDll = root.dlls[randomNum % root.dlls.length]
+                    root.selectedDll = randomNum % root.dlls.length
                 } else {
-                    root.selectedDll = "boot RNG failed"
+                    root.selectedDll = -2 // "boot RNG failed"
                 }
                 
                 // Disconnect immediately after reading so it doesn't loop run
