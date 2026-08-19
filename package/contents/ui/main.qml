@@ -14,8 +14,7 @@ PlasmoidItem {
 
     Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground
 
-    implicitWidth: 500; implicitHeight: 200
-
+    implicitWidth: 1000; implicitHeight: 200
 
     property var dlls: {
         try {
@@ -53,7 +52,6 @@ PlasmoidItem {
             }
         }
 
-        // 2. Trigger a simple cat command to dump the virtual file stream
         Component.onCompleted: {
             executableEngine.connectSource("cat /proc/sys/kernel/random/boot_id")
         }
@@ -62,40 +60,36 @@ PlasmoidItem {
 
 
     Item {
-        id: textContainer
+        id: dllText
         anchors.fill: parent
 
         PlasmaComponents.Label {
             id: fancyText
             text: root.textToShow
             anchors.centerIn: parent
-            
-            font.pixelSize: 150
+            font.pixelSize: 200
             font.family: "Playfair Display"
-            font.variableAxes: { "wght": 900 } 
-
+            font.variableAxes: { "wght": 900 }
             font.italic: false
             font.letterSpacing: 2
-            
-            // 0.4 makes it 40% opaque, letting background colors bleed through
-            opacity: 0.4 
-            color: "white" 
+            color: "white"
+            opacity: 0.4
         }
     }
 
-    // Hardware-accelerated blur effect applied directly over the text layer
     MultiEffect {
-        source: textContainer
-        anchors.fill: textContainer
-        
-        // Configures a high-quality soft frosted blur radius around the font
-        blurEnabled: true
-        blur: 1.0 // Range from 0.0 to 1.0
-        blurMax: 64 // Maximum blurring radius in pixels
+        id: effect
+        source: dllText
+        anchors.fill: dllText
+        autoPaddingEnabled: true
 
-        // Optional: Adds a stylized subtle tint shadow for extra contrast
+        blurEnabled: true
+        blur: 1
+        blurMax: 32
+
         shadowEnabled: true
         shadowColor: "#000000"
-        shadowOpacity: 0.3
+        shadowOpacity: 0.0
+        shadowBlur: 0.6
     }
 }
