@@ -74,7 +74,7 @@ PlasmoidItem {
             font.italic: false
             font.letterSpacing: 2
             color: "white"
-            opacity: 0.4
+            opacity: root.plasmoid.configuration.opacity
         }
     }
 
@@ -87,6 +87,13 @@ PlasmoidItem {
         blurEnabled: true
         blur: 1
         blurMax: 32
+        blurMultiplier: 5.0
+
+        // maskEnabled: true
+        // maskInverted: true
+        // maskSource: fancyText
+        // maskSpreadAtMin: 1.0
+        // maskThresholdMin: 0.5
 
         shadowEnabled: true
         shadowColor: "#000000"

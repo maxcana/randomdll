@@ -11,5 +11,8 @@
     <entry name="capitalize" type="bool">
       <default>false</default>
     </entry>
+    <entry name="opacity" type="Double">
+      <default>0.4</default>
+    </entry>
   </group>
 </kcfg>
